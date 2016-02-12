@@ -1,9 +1,115 @@
 <html>
   <head>
     <title>Todo Application</title>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
+    <script>
+        var myapp = angular.module("todolist",[]);
+        myapp.controller("myctr",function($scope){
+                         $scope.newtask=null;
+                         $scope.title=null;
+                         $scope.newdue= new Date();
+                         $scope.tasks = new Array();
+                         $scope.chek = false;
+                         $scope.addTask=function()
+                         {
+                                $scope.tasks.push({
+                                           des:$scope.newtask,
+                                           due:$scope.newdue,
+                                           select:$scope.chek,
+                                           tit:$scope.title,
+                                               dele:function()
+                                                  {
+                                                    for (var i=0;i<$scope.tasks.length;i++)
+                                                    {
+                                                     if(this===$scope.tasks[i])
+                                                      {
+                                                        $scope.tasks.splice(i,1);
+                                                      }
+                                                    }
+                                                  },
+                                                  complete:function()
+                                                  {
+                                                    this.select=!this.select;
+                                                  
+                                                  }
+                                                  
+                                        
+                                                  });
+                         }
+         });
+    </script>
+    <style>
+        h2{
+            text-align:center
+        }
+        .tasking{
+            
+            padding-left:3em;
+        
+        }
+    .l
+    {
+        text-decoration:line-through;
+    }
+    ul
+    {
+        padding-top:1em;
+    }
+    form{
+        text-align:center;
+    }
+    .btnb
+    {   display:block;
+        width:100%;
+        text-align:right;
+    }
+    .subm{
+        padding-right:3em;
+        width:100%;
+        text-align:right;
+    }
+    .err{
+        width:50%;
+        margin:auto;
+    }
+    .container
+    {
+        padding:1em;
+        height:22em;
+        width:100%;
+        border-bottom:1px solid lightgray;
+    }
+    .taskbox{
+        padding:1em;
+        border:1px solid black;
+       
+    }
+        </style>
   </head>
   <body>
+     <div ng-app="todolist" ng-controller="myctr">
+        <div class="container">
+         <h2>My Todo List</h2>
+         <form name="myform">
+          <label>Title: <input type="textarea" name="Title" ng-model="title" placeholder="Title" required></label>
+          <label>Description: <input type="txtarea" name="Description" ng-model="newtask" placeholder="to do.." required></label>
+          <label>Duetime: <input type="date" name="Date" ng-model="newdue"  placeholder="Due date" required></label>
+         </form>
+         <label class="subm">
+         <button type="button" class="btn btn-primary" ng-click="addTask()" ng-disabled="myform.Title.$error.required||myform.Description.$error.required||myform.Date.$error.required||myform.Date.$invalid">Submit</button>
+         </label>
+         <ul class="list-group err">
+         <list class="list-group-item" ng-show="myform.Title.$error.required"><span style="color:red">Empty Title</span></list>
+         <list class="list-group-item" ng-show="myform.Description.$error.required"><span style="color:red">Empty Description</span></list>
+         <list class="list-group-item" ng-show="myform.Date.$invalid"><span style="color:red" ng-show="myform.Date.$invalid">Invalid Date</span></list>
+         </ul>
+        </div>
+        <div clas="taskbox">
+         <ul class="list-group">
+             <li ng-class= "{true:'list-group-item l',false:'list-group-item'}[ta.select]" ng-repeat="ta in tasks|orderBy:'due'|orderBy:'tit'"><input type = "checkbox" ng-click="ta.complete()" style="padding:3px"><span class="tasking">{{ta.tit+": "+ta.des+" on "+ta.due}}</span></input><span class="btnb"><button type="button" class="btn btn-danger" ng-click="ta.dele()">Delete</button></span></li>
+         </ul>
+        </div>
+     </div>
   </body>
 </html>

@@ -81,8 +81,8 @@
         border-bottom:1px solid lightgray;
     }
     .taskbox{
-        padding:1em;
-        border:1px solid black;
+        width:70%;
+        margin:auto;
        
     }
         </style>
@@ -105,7 +105,7 @@
          <list class="list-group-item" ng-show="myform.Date.$invalid"><span style="color:red" ng-show="myform.Date.$invalid">Invalid Date</span></list>
          </ul>
         </div>
-        <div clas="taskbox">
+        <div class="taskbox">
          <ul class="list-group">
              <li ng-class= "{true:'list-group-item l',false:'list-group-item'}[ta.select]" ng-repeat="ta in tasks|orderBy:'due'|orderBy:'tit'"><input type = "checkbox" ng-click="ta.complete()" style="padding:3px"><span class="tasking">{{ta.tit+": "+ta.des+" on "+ta.due}}</span></input><span class="btnb"><button type="button" class="btn btn-danger" ng-click="ta.dele()">Delete</button></span></li>
          </ul>
